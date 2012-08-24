@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), 'config', 'development_env')
+
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
@@ -28,7 +30,7 @@ end
 
 # https://github.com/guard/guard-less
 guard 'less', :all_on_start => true, :all_after_change => true, 
-              :import_paths => ['assets/less/inc'],
-              :output_path => 'public/css' do
+              :import_paths => [ ENV['LESS_IMPORT_PATH'] ],
+              :output => 'public/css' do
   watch(%r{^assets/less/.+\.less$})
 end
