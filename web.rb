@@ -1,7 +1,10 @@
 require 'sinatra'
 require 'sinatra/base'
-require 'nokogiri'
 require 'open-uri'
+require 'rack/ssl'
+
+# Load any DEV environment variables
+require File.join(File.dirname(__FILE__), 'config', 'development_env') if development?
 
 class SinatraApp < Sinatra::Base
 
@@ -19,11 +22,28 @@ class SinatraApp < Sinatra::Base
   #  end
   #end
 
-  configure do
+  #
+  # Force SSL - http://opensoul.harmonyapp.com/blog/archives/2011/11/16/sinatra-and-ssl/
+  #
+  use Rack::SSL if !development?
 
+  configure do
+    enable :logging
+  end
+
+  configure :development do
+    # Need :sessions for development, heroku doesnt like it: https://gist.github.com/1017771
+    enable :sessions if development?
+    # Tell sinatra not to use a different session secret on each application restart
+    set :session_secret, 'super secret'
   end
 
   before do
+    if mobile_request?
+      set :erb, :layout => :mobile
+    else
+      set :erb, :layout => :layout
+    end
 
   end
 
@@ -31,38 +51,13 @@ class SinatraApp < Sinatra::Base
 
   end
 
-  get "/" do
-    erb :index
-  end
-
   error do
     e = request.env['sinatra.error']
     Kernel.puts e.backtrace.join("\n")
     'Application error'
   end
-
-  helpers do
-    #
-    # Allows for partial views
-    #
-    def partial(name, options={})
-      erb("_#{name.to_s}".to_sym, options.merge!(:layout => false))
-    end
-
-    #
-    # Decorator function for proteted pages
-    #
-    def protected!
-      unless authorized?
-        response['WWW-Authenticate'] = %(Basic realm="Restricted Area")
-        throw(:halt, [401, "Not authorized\n"])
-      end
-    end
-
-    def authorized?
-      @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-      @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == ['username', 'pass']
-    end
-  end
-
 end
+
+require  File.join(File.dirname(__FILE__), 'helpers', 'helpers')
+require  File.join(File.dirname(__FILE__), 'models', 'models')
+require  File.join(File.dirname(__FILE__), 'routes', 'routes')
