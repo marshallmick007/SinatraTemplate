@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), 'form_builder')
+
 class SinatraApp < Sinatra::Base
   helpers do
     #Credit to Lachlan Hardy, taken from this blog post originally:
@@ -62,6 +64,17 @@ class SinatraApp < Sinatra::Base
     def authorized_basic?
       @auth ||=  Rack::Auth::Basic::Request.new(request.env)
       @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == ['username', 'pass']
+    end
+
+    #
+    # Determines the build
+    #
+    def build_version
+      if development? || ENV['BUILD_VERSION'].nil?
+        sha1, date = `git log HEAD~1..HEAD --pretty=format:%h^%ci`.strip.split('^')
+      else
+        sha1, date = ENV['BUILD_VERSION'], ENV['BUILD_DATE']
+      end
     end
   end
 

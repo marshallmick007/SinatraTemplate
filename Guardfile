@@ -31,6 +31,6 @@ end
 # https://github.com/guard/guard-less
 guard 'less', :all_on_start => true, :all_after_change => true, 
               :import_paths => [ ENV['LESS_IMPORT_PATH'] ],
-              :output => 'public/css' do
+              :output => ENV["CSS_OUTPUT_DIR"] do
   watch(%r{^assets/less/.+\.less$})
 end

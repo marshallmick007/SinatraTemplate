@@ -7,6 +7,14 @@ require File.join(File.dirname(__FILE__), 'config', 'development_env')
 
 task :default => 'compile:all'
 
+namespace :stage do
+  desc "Sets the build number"
+  task :stampbuild do
+    # perhaps create an ENV and use the heroku gem to set/update it?
+    puts "TODO: create a way to stash the git build number to heroku(if using)"
+  end
+end
+
 namespace :compile do
 
   desc "Compiles all assets"

@@ -6,7 +6,12 @@ require 'rack/ssl'
 # Load any DEV environment variables
 require File.join(File.dirname(__FILE__), 'config', 'development_env') if development?
 
+require File.join(File.dirname(__FILE__), 'helpers', 'helpers')
+require File.join(File.dirname(__FILE__), 'models', 'models')
+require File.join(File.dirname(__FILE__), 'routes', 'routes')
+
 class SinatraApp < Sinatra::Base
+  helpers Sinatra::FormBuilder
 
   ## From https://github.com/sinatra/sinatra-recipes/blob/master/app.rb
   #configure :production do
@@ -27,15 +32,22 @@ class SinatraApp < Sinatra::Base
   #
   use Rack::SSL if !development?
 
-  configure do
-    enable :logging
+  configure :production do
+    set :raise_errors, false
+    set :show_exceptions, false
   end
 
   configure :development do
     # Need :sessions for development, heroku doesnt like it: https://gist.github.com/1017771
-    enable :sessions if development?
+    enable :sessions
     # Tell sinatra not to use a different session secret on each application restart
     set :session_secret, 'super secret'
+
+    set :dump_errors => true, :show_exceptions => true
+  end
+
+  configure do
+    enable :logging
   end
 
   before do
@@ -58,6 +70,4 @@ class SinatraApp < Sinatra::Base
   end
 end
 
-require  File.join(File.dirname(__FILE__), 'helpers', 'helpers')
-require  File.join(File.dirname(__FILE__), 'models', 'models')
-require  File.join(File.dirname(__FILE__), 'routes', 'routes')
+
