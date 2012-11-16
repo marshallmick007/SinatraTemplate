@@ -28,9 +28,12 @@ guard 'pow' do
   watch(%r{^routes/.*\.rb$})
 end
 
-# https://github.com/guard/guard-less
-guard 'less', :all_on_start => true, :all_after_change => true, 
-              :import_paths => [ ENV['LESS_IMPORT_PATH'] ],
-              :output => ENV["CSS_OUTPUT_DIR"] do
-  watch(%r{^assets/less/.+\.less$})
+
+# https://github.com/guard/guard-sass
+guard 'sass', :all_on_start => true, 
+              #:load_paths => [ ENV['SASS_IMPORT_PATH'] ],
+              :compass => true,
+              :output => "public/css" do
+  watch(%r{^assets/sass/.+\.s[ac]ss$})
+  #watch(%r{^assets/scss/inc/.+\.s[as]ss$})
 end

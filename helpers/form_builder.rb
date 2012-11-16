@@ -215,6 +215,6 @@ module Sinatra
     end
   end
 
-  helpers FormHelpers
+  helpers FormBuilder
 end
 

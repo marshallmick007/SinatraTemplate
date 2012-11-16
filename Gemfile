@@ -8,14 +8,16 @@ gem 'rack-ssl'
 
 
 group :development do
-  #https://github.com/guard/guard#readme
   gem 'growl'
   gem 'guard'
+  gem 'compass'
+  gem 'sass', "~> 3.2.1"
   gem 'guard-livereload'
-  gem 'rack-livereload'
+  gem 'guard-sass', "~> 1.0.0"
   gem 'guard-pow'
-  gem 'guard-less'
+  gem 'guard-haml'
   gem 'guard-coffeescript'
-  gem 'sinatra-reloader'
+  gem 'rb-fsevent', :require => false
 end
+
 

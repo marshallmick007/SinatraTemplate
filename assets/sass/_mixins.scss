@@ -1,0 +1,58 @@
+// The micro clearfix http://nicolasgallagher.com/micro-clearfix-hack/
+
+@mixin clearfix() { *zoom:1;
+  &:before, &:after { content: " "; display: table; }
+  &:after { clear: both; }
+}
+
+@mixin mobileClearfix() {
+  @include respondTo(smallScreen) { &:before, &:after { content: " "; display: table; }
+    &:after { clear: both; }
+    &:last-child { float: none; }
+  }
+}
+
+@mixin colorButton($color, $textColor: $white) {
+  background-color: $color; 
+  color: $textColor;
+  border: 1px solid darken(($color), 15%);
+  &:hover { background-color: darken(($color), 10%); }
+  &:focus { @include box-shadow(0 0 5px opacify($color, 0.5), 0 1px 0 $shinyEdge inset); }
+}
+
+
+
+// Mixin for Semantic Grid reponsiveness
+
+@mixin respondTo($media) {
+  @if $media == smallScreen {
+    @media only screen and (max-width: $screenSmall - 1) { @content; }
+  } @else if $media == mediumScreen {
+    @media only screen and (max-width: $screenMedium) and (min-width: $screenSmall) { @content; }
+  } @else if $media == largeScreen {
+    @media only screen and (min-width: $screenXlarge) { @content; }
+  }
+}
+
+// Create CSS Triangles in a Breeze
+
+@mixin cssTriangle($triangleSize, $triangleColor, $triangleDirection) {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border: solid $triangleSize;
+  @if ($triangleDirection == top) {
+    border-color: $triangleColor transparent transparent transparent;
+  }
+  @if ($triangleDirection == bottom) {
+    border-color: transparent transparent $triangleColor transparent;
+  }
+  @if ($triangleDirection == left) {
+    border-color: transparent transparent transparent $triangleColor;
+  }
+  @if ($triangleDirection == right) {
+    border-color: transparent $triangleColor transparent transparent;
+  }
+  // .example { @include cssTriangle(5px, #fff, bottom); }
+}

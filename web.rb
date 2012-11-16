@@ -48,6 +48,8 @@ class SinatraApp < Sinatra::Base
 
   configure do
     enable :logging
+    set :root, File.dirname(__FILE__)
+
   end
 
   before do
