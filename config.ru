@@ -12,4 +12,7 @@ set :environment, ENV['RACK_ENV'] || :development
 use Rack::Deflater
 use Rack::Session::Cookie
 
+#map('/admin') { run AdminController }
+#map('/api') { run ApiController }
+
 run SinatraApp

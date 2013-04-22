@@ -18,6 +18,9 @@ group :development do
   gem 'guard-haml'
   gem 'guard-coffeescript'
   gem 'rb-fsevent', :require => false
+  # https://github.com/charliesome/better_errors
+  gem "better_errors"
+  gem "binding_of_caller"
 end
 
 

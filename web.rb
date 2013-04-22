@@ -5,6 +5,7 @@ require 'rack/ssl'
 
 # Load any DEV environment variables
 require File.join(File.dirname(__FILE__), 'config', 'development_env') if development?
+require 'better_errors' if development?
 
 require File.join(File.dirname(__FILE__), 'helpers', 'helpers')
 require File.join(File.dirname(__FILE__), 'models', 'models')
@@ -42,6 +43,10 @@ class SinatraApp < Sinatra::Base
     enable :sessions
     # Tell sinatra not to use a different session secret on each application restart
     set :session_secret, 'super secret'
+
+    # https://github.com/charliesome/better_errors
+    use BetterErrors::Middleware
+    BetterErrors.application_root = File.expand_path("..", __FILE__)
 
     set :dump_errors => true, :show_exceptions => true
   end
