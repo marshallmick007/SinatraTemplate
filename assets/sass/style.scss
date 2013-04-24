@@ -1,3 +1,4 @@
+@import "normalize";
 @import "compass/css3";
 @import "settings";
 @import "mixins";
@@ -7,10 +8,112 @@ $popupLinkColor: #EFEFEF;
 $popupFgColor: #EFEFEF;
 $popupBgColor: #222;
 
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,th,td,header {
-  margin:0;
-  padding:0;
-  font-size: ms(0);
+
+#pagewrap {
+  width: 980px;
+  margin: 0 auto;
 }
 
+#header {
+  height: 160px;
+  background: $mainColor;
+  color: $backgroundColor;
+}
+
+#content {
+  width: 600px;
+  float: left;
+}
+
+#sidebar {
+  width: 280px;
+  float: right;
+}
+
+#footer {
+  clear: both;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	width: auto\9; /* ie8 */
+}
+
+// iPad horizontal
+@media screen and (max-width: 980px) {
+
+  #pagewrap {
+    width: 95%;
+  }
+
+  #content {
+    width: 60%;
+    padding: 3% 4%;
+  }
+
+  #sidebar {
+    width: 30%;
+  }
+  #sidebar .widget {
+    padding: 8% 7%;
+    margin-bottom: 10px;
+  }
+
+}
+
+// iPad vertical
+@media screen and (max-width: 650px) {
+
+	#header {
+		height: auto;
+	}
+
+	#searchform {
+		position: absolute;
+		top: 5px;
+		right: 0;
+	}
+
+	#main-nav {
+		position: static;
+	}
+
+	#site-logo {
+		margin: 15px 100px 5px 0;
+		position: static;
+	}
+
+	#site-description {
+		margin: 0 0 15px;
+		position: static;
+	}
+
+	#content {
+		width: auto;
+		float: none;
+		margin: 20px 0;
+	}
+
+	#sidebar {
+		width: 100%;
+		float: none;
+		margin: 0;
+	}
+
+}
+
+// iPhone
+@media screen and (max-width: 480px) {
+
+	html {
+		-webkit-text-size-adjust: none;
+	}
+
+	#main-nav a {
+		font-size: 90%;
+		padding: 10px 8px;
+	}
+
+}
 
